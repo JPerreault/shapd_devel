@@ -32,7 +32,6 @@ function init() {
 	scene.add( light );
 
 	parent = new THREE.Object3D();
-	parent.position.y = 50;
 	scene.add( parent );
 	
 	var triangleShape = new THREE.Shape();
