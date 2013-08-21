@@ -22,10 +22,8 @@ function init() {
 	document.body.appendChild( container );
 	container.style.zIndex = 100;
 
-	camera = new THREE.PerspectiveCamera( 10, window.innerWidth / window.innerHeight, 500, 10000 );
+	camera = new THREE.PerspectiveCamera( 4, window.innerWidth / window.innerHeight, 500, 100000 );
 	camera.position.z = 1000;
-	// camera = new THREE.PerspectiveCamera( 4, window.innerWidth / window.innerHeight, 500, 100000 );
-	// camera.position.z = 1000;
 
 	scene = new THREE.Scene();
 

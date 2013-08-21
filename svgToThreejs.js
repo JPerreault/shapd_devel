@@ -92,8 +92,7 @@ function parseMoveTo(desc, svgString)
 	}
 		
 	desc.x = parseInt(svgString.substr(currentPoint, numberLength));
-	console.log('Desc X Before: ',desc.x);
-	console.log('Desc X After: ',desc.x);
+	desc.x += 550;
 	currentPoint += numberLength + 1;
 	numberLength = 0;
 
@@ -103,10 +102,8 @@ function parseMoveTo(desc, svgString)
 	}
 	
 	desc.y = parseInt(svgString.substr(currentPoint, numberLength));
-	console.log('Desc Y Before: ',desc.y);
-	desc.y -= 140;
+	desc.y += 145;
 	desc.y /= -1.75;
-	console.log('Desc Y After: ',desc.y);
 	desc.type = 'moveTo';
 	currentPoint += numberLength + 1;
 	numberLength = 0;
