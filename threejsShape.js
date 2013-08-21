@@ -130,8 +130,8 @@ function render() {
 function addShape( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s ) {
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ new THREE.MeshLambertMaterial( { color: color } ), new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true } ) ] );
-		mesh.position.set( x, y, z - 75 );
+		mesh.position.set( x, y, z );
 		mesh.rotation.set( rx, ry, rz );
 		mesh.scale.set( s, s, s );
 		parent.add( mesh );
-	}
+}

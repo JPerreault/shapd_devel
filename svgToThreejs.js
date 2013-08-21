@@ -92,7 +92,7 @@ function parseMoveTo(desc, svgString)
 	}
 		
 	desc.x = parseInt(svgString.substr(currentPoint, numberLength));
-	desc.x += 550;
+	desc.x -= 345;
 	currentPoint += numberLength + 1;
 	numberLength = 0;
 

@@ -49,7 +49,7 @@
 		}
 		
 		function updateScene() {
-			var extrudeSettings = { amount: 50 }; // bevelSegments: 2, steps: 2 , bevelSegments: 5, bevelSize: 8, bevelThickness:5
+			var extrudeSettings = { amount: 20 }; // bevelSegments: 2, steps: 2 , bevelSegments: 5, bevelSize: 8, bevelThickness:5
 			extrudeSettings.bevelEnabled = true;
 			extrudeSettings.bevelSegments = 2;
 			extrudeSettings.steps = 2;
@@ -58,7 +58,7 @@
 			{
 				scene.remove(parent);
 				parent.children = [];
-				addShape( svgToThreeD(data), extrudeSettings, 0xffee00, -180, 0, 0, 0, 0, 0, .20 );
+				addShape( svgToThreeD(data), extrudeSettings, 0xffee00, 0, 0, 0, 0, 0, 0, .20 );
 				scene.add(parent);
 			})
 		}
