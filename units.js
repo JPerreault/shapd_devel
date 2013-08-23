@@ -170,8 +170,8 @@ svgedit.units.setUnitAttr = function(elem, attr, val) {
 
 var attrsToConvert = {
 	"line": ['x1', 'x2', 'y1', 'y2'],
-	"circle": ['cx', 'cy', 'r'],
 	"ellipse": ['cx', 'cy', 'rx', 'ry'],
+	"circle": ['cx', 'cy', 'r'],
 	"foreignObject": ['x', 'y', 'width', 'height'],
 	"rect": ['x', 'y', 'width', 'height'],
 	"image": ['x', 'y', 'width', 'height'],

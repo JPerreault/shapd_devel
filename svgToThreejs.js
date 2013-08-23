@@ -7,11 +7,13 @@ function svgToThreeD(svgString)
 	var shapes = [];
 	var svgIndexer = svgString;
 	var shapeNumber = 0;
+	var nextShape = getNextShape(svgIndexer);
 	
-	while (svgIndexer.indexOf('d="m') !== -1)
+	while (nextShape !== 'end')
 	{
-		toop[shapeNumber] = addToString (svgIndexer.indexOf('d="m') + 4, svgIndexer);
-		svgIndexer = svgIndexer.substr(svgIndexer.indexOf('d="m') + 4, svgIndexer.length);
+		toop[shapeNumber] = parseShape (svgIndexer, nextShape);
+		svgIndexer = svgIndexer.substr(currentPoint + 10, svgIndexer.length);
+		nextShape = getNextShape(svgIndexer);
 		shapeNumber++;
 	}
 		
@@ -19,8 +21,48 @@ function svgToThreeD(svgString)
 	{
 		shapes[i] = svgDescToThreejs(toop[i]);
 	}
-	
 	return shapes;
+}
+
+function getNextShape(svgString)
+{
+	for (var i = 0; i < svgString.length; i ++)
+	{
+		var pathIndex = svgString.indexOf('path');
+		var rectIndex = svgString.indexOf('rect');
+		var circleIndex = svgString.indexOf('circle');
+		var ellipseIndex = svgString.indexOf('ellipse');
+
+		var nextIndex = pathIndex;
+		var nextType = 'path';
+		
+		if ((circleIndex < nextIndex || nextIndex == -1) && circleIndex > -1)
+		{
+			nextIndex = circleIndex;
+			nextType = 'circle';
+		}
+		if ((ellipseIndex < nextIndex || nextIndex == -1) && ellipseIndex > -1)
+		{
+			nextIndex = ellipseIndex;
+			nextType = 'ellipse';
+		}
+		if ((rectIndex < nextIndex || nextIndex === -1) && rectIndex > -1)
+		{
+			nextIndex = rectIndex;
+			nextType = 'rect';
+		}
+		
+		if (nextIndex === -1)
+		{
+			nextType = 'end';
+			return nextType;
+		}
+		else
+		{
+			currentPoint = nextIndex;
+			return nextType;
+		}
+	}
 }
 
 function svgDescToThreejs(lines)
@@ -31,16 +73,33 @@ function svgDescToThreejs(lines)
 	{
 		if (lines[i].type === 'lineTo')
 			weLoveJason.lineTo(lines[i].x, lines[i].y);
-		else
+		else if (lines[i].type === 'bezierCurveTo')
 			weLoveJason.bezierCurveTo(lines[i].cp1x, lines[i].cp1y, lines[i].cp2x, lines[i].cp2y, lines[i].x, lines[i].y);
+		else if (lines[i].type === 'ellipseCurveTo')
+			weLoveJason.absellipse( lines[0].x - lines[i].rx, lines[0].y, lines[i].rx, lines[i].ry, 0, Math.PI*2.0, true );
 	}
 	
 	return weLoveJason;
 }
 
-function addToString(startingIndex, svgString)
+function parseShape(svgString, type)
 {
-	currentPoint = startingIndex;
+	var parsedShape;
+	if (type === 'path')
+		parsedShape = parsePath(svgString);
+	else if (type === 'circle')
+		parsedShape = parseCircle(svgString);
+	else if (type === 'ellipse')
+		parsedShape = parseEllipse(svgString);
+	else if (type === 'rect')
+		parsedShape = parseRect(svgString);
+		
+	return parsedShape;
+}
+
+function parsePath(svgString)
+{
+	currentPoint = svgString.indexOf('d="m') + 4;
 	var endPoint, type, desc;
 	desc = new svgDesc();
 	descArray = [];
@@ -60,7 +119,7 @@ function addToString(startingIndex, svgString)
 		type = 'lineTo';
 	else if (svgString[currentPoint-1] === 'c')
 		type = 'bezierCurveTo';
-		
+	
 	while (currentPoint < endPoint)
 	{	
 		desc = new svgDesc();
@@ -84,6 +143,189 @@ function addToString(startingIndex, svgString)
 	return descArray;
 }
 
+function parseCircle(svgString)
+{
+	var descArray = [];
+	var numberLength = 0;
+	var tempString = svgString.substr(currentPoint, svgString.length);
+	var cx = cy = r = '';
+	
+	while (svgString[svgString.indexOf('cx="') + 4 + numberLength] !== '"')
+	{
+		cx += svgString[svgString.indexOf('cx="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (svgString[svgString.indexOf('cy="') + 4 + numberLength] !== '"')
+	{
+		cy += svgString[svgString.indexOf('cy="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (svgString[svgString.indexOf('r="') + 3 + numberLength] !== '"')
+	{
+		r += svgString[svgString.indexOf('r="') + 3 + numberLength];
+		numberLength++;
+	}
+	
+	var xCenter = parseInt(cx);
+	var yCenter = parseInt(cy);
+	var radiusX = parseFloat(r);
+	
+	desc = new svgDesc();
+	desc.x = xCenter;
+	desc.x -= 345;
+	desc.y = yCenter;
+	desc.y -= 300;
+	desc.y /= -1;
+	desc.type = 'moveTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.rx = radiusX;
+	desc.ry = radiusX;
+	desc.type = 'ellipseCurveTo';
+	descArray.push(desc);
+	
+	return descArray;
+}
+
+function parseEllipse(svgString)
+{
+	var descArray = [];
+	var numberLength = 0;
+	var tempString = svgString.substr(currentPoint, svgString.length);
+	var cx = cy = rx = ry = '';
+	
+	while (svgString[svgString.indexOf('cx="') + 4 + numberLength] !== '"')
+	{
+		cx += svgString[svgString.indexOf('cx="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (svgString[svgString.indexOf('cy="') + 4 + numberLength] !== '"')
+	{
+		cy += svgString[svgString.indexOf('cy="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (svgString[svgString.indexOf('rx="') + 4 + numberLength] !== '"')
+	{
+		rx += svgString[svgString.indexOf('rx="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (svgString[svgString.indexOf('ry="') + 4 + numberLength] !== '"')
+	{
+		ry += svgString[svgString.indexOf('ry="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	
+	var xCenter = parseInt(cx);
+	var yCenter = parseInt(cy);
+	var radiusX = parseFloat(rx);
+	var radiusY = parseFloat(ry);
+	
+	desc = new svgDesc();
+	desc.x = xCenter;
+	desc.x -= 345;
+	desc.y = yCenter;
+	desc.y -= 300;
+	desc.y /= -1;
+	desc.type = 'moveTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.rx = radiusX;
+	desc.ry = radiusY;
+	desc.type = 'ellipseCurveTo';
+	descArray.push(desc);
+	
+	return descArray;
+}
+
+function parseRect(svgString)
+{
+	var descArray = [];
+	var numberLength = 0;
+	var tempString = svgString.substr(currentPoint, svgString.length);
+	var x = y = height = width = '';
+	
+	while (tempString[tempString.indexOf('x="') + 3 + numberLength] !== '"')
+	{
+		x += tempString[tempString.indexOf('x="') + 3 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (tempString[tempString.indexOf(' y="') + 4 + numberLength] !== '"')
+	{
+		y += tempString[tempString.indexOf(' y="') + 4 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (tempString[tempString.indexOf('height="') + 8 + numberLength] !== '"')
+	{
+		height += tempString[tempString.indexOf('height="') + 8 + numberLength];
+		numberLength++;
+	}
+	numberLength = 0;
+	
+	while (tempString[tempString.indexOf(' width="') + 8 + numberLength] !== '"')
+	{
+		width += tempString[tempString.indexOf(' width="') + 8 + numberLength];
+		numberLength++;
+	}
+	
+	var xPos = parseInt(x);
+	var yPos = parseInt(y);
+	var rectH = parseInt(height);
+	var rectW = parseInt(width);
+	
+	desc = new svgDesc();
+	desc.x = xPos;
+	desc.x -= 345;
+	desc.y = yPos;
+	desc.y -= 300;
+	desc.y /= -1;
+	desc.type = 'moveTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.x = descArray[descArray.length-1].x + rectW;
+	desc.y = descArray[descArray.length-1].y;
+	desc.type = 'lineTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.x = descArray[descArray.length-1].x;
+	desc.y = descArray[descArray.length-1].y - rectH;
+	desc.type = 'lineTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.x = descArray[descArray.length-1].x - rectW;
+	desc.y = descArray[descArray.length-1].y;
+	desc.type = 'lineTo';
+	descArray.push(desc);
+	
+	desc = new svgDesc();
+	desc.x = descArray[descArray.length-1].x;
+	desc.y = descArray[descArray.length-1].y + rectH;
+	desc.type = 'lineTo';
+	descArray.push(desc);
+
+	return descArray;
+}
+
 function parseMoveTo(desc, svgString)
 {
 	while (svgString[currentPoint + numberLength] !== ',')
@@ -103,7 +345,7 @@ function parseMoveTo(desc, svgString)
 	
 	desc.y = parseInt(svgString.substr(currentPoint, numberLength));
 	desc.y -= 300;
-	desc.y /= -1.75;
+	desc.y /= -1;
 	desc.type = 'moveTo';
 	currentPoint += numberLength + 1;
 	numberLength = 0;

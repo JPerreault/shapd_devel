@@ -33,18 +33,6 @@ function init() {
 
 	parent = new THREE.Object3D();
 	scene.add( parent );
-	
-	var triangleShape = new THREE.Shape();
-	triangleShape.moveTo(  80, 20 );
-	triangleShape.lineTo(  40, 80 );
-	triangleShape.lineTo( 120, 80 );
-	triangleShape.lineTo(  80, 20 ); 
-
-	var extrudeSettings = { amount: 50 }; // bevelSegments: 2, steps: 2 , bevelSegments: 5, bevelSize: 8, bevelThickness:5
-	extrudeSettings.bevelEnabled = true;
-	extrudeSettings.bevelSegments = 2;
-	extrudeSettings.steps = 2;
-	addShape( triangleShape, extrudeSettings, 0xffee00, -180, 0, 0, 0, 0, 0, 1 );
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );

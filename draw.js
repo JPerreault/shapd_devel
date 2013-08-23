@@ -23,7 +23,7 @@ var svg_ns = "http://www.w3.org/2000/svg";
 var se_ns = "http://svg-edit.googlecode.com";
 var xmlns_ns = "http://www.w3.org/2000/xmlns/";
 
-var visElems = 'a,circle,ellipse,foreignObject,g,image,line,path,polygon,polyline,rect,svg,text,tspan,use';
+var visElems = 'a,ellipse,circle,foreignObject,g,image,line,path,polygon,polyline,rect,svg,text,tspan,use';
 var visElems_arr = visElems.split(',');
 
 var RandomizeModes = {

@@ -29,7 +29,7 @@ var XLINKNS = 'http://www.w3.org/1999/xlink';
 var XMLNS = "http://www.w3.org/XML/1998/namespace";
 
 // Much faster than running getBBox() every time
-var visElems = 'a,circle,ellipse,foreignObject,g,image,line,path,polygon,polyline,rect,svg,text,tspan,use';
+var visElems = 'a,ellipse,circle,foreignObject,g,image,line,path,polygon,polyline,rect,svg,text,tspan,use';
 var visElems_arr = visElems.split(',');
 //var hidElems = 'clipPath,defs,desc,feGaussianBlur,filter,linearGradient,marker,mask,metadata,pattern,radialGradient,stop,switch,symbol,title,textPath';
 
