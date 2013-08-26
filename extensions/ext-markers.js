@@ -121,7 +121,7 @@ svgEditor.addExtension("Markers", function(S) {
 	//toggles context tool panel off/on
 	//sets the controls with the selected element's settings
 	function showPanel(on) {
-		$('#marker_panel').toggle(on);
+		//$('#marker_panel').toggle(on);
 
 		if(on) {
 			var el = selElems[0];

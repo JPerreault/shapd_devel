@@ -26,8 +26,6 @@
 <script type="text/javascript" src="touch.js"></script>
 
 <!--{if svg_edit_release}-->
-  <script type="text/javascript" src="svgedit.compiled.js"></script>
-<!--{else}>
   <script type="text/javascript" src="contextmenu/jquery.contextMenu.js"></script>
   <script type="text/javascript" src="browser.js"></script>
   <script type="text/javascript" src="svgtransformlist.js"></script>
@@ -43,6 +41,9 @@
   <script type="text/javascript" src="svg-editor.js"></script>
   <script type="text/javascript" src="locale/locale.js"></script>
   <script type="text/javascript" src="contextmenu.js"></script>
+<!--{else}>
+
+  <script type="text/javascript" src="svgedit.compiled.js"></script>
 <!{endif}-->
 
 <!-- you can load extensions here -->
@@ -83,6 +84,7 @@
 </div>
 </div>
 
+<!--
 <div id="sidepanels">
 	<div id="layerpanel">
 		<h3 id="layersLabel">Layers</h3>
@@ -107,7 +109,7 @@
 		</select>
 	</div>
 	<div id="sidepanel_handle" title="Drag left/right to resize side panel [X]">L a y e r s</div>
-</div>
+</div> -->
 
 <div id="main_button">
 	<div id="main_icon" class="tool_button" title="Main Menu">
@@ -190,8 +192,9 @@
 	<div id="selected_panel">
 		<div class="toolset">
 			<div class="tool_sep"></div>
-			<div class="push_button" id="tool_clone" title="Duplicate Element [D]"></div>
 			<div class="push_button" id="tool_delete" title="Delete Element [Delete/Backspace]"></div>
+			<!--
+			<div class="push_button" id="tool_clone" title="Duplicate Element [D]"></div>
 			<div class="tool_sep"></div>
 			<div class="push_button" id="tool_move_top" title="Bring to Front [ Ctrl+Shift+] ]"></div>
 			<div class="push_button" id="tool_move_bottom" title="Send to Back [ Ctrl+Shift+[ ]"></div>
@@ -203,8 +206,9 @@
 				<span>id:</span>
 				<input id="elem_id" class="attr_changer" data-attr="id" size="10" type="text"/>
 			</label>
+			-->
 		</div>
-
+		<!--
 		<label id="tool_angle" title="Change rotation angle" class="toolset">
 			<span id="angleLabel" class="icon_label"></span>
 			<input id="angle" size="2" value="0" type="text"/>
@@ -236,13 +240,15 @@
 				y: <input id="selected_y" class="attr_changer" title="Change Y coordinate" size="3" data-attr="y"/>
 			</label>
 		</div>
+		-->
 	</div>
 	
 	<!-- Buttons when multiple elements are selected -->
 	<div id="multiselected_panel">
+	<div class="push_button" id="tool_delete_multi" title="Delete Selected Elements [Delete/Backspace]"></div>
+	<!--
 		<div class="tool_sep"></div>
 		<div class="push_button" id="tool_clone_multi" title="Clone Elements [C]"></div>
-		<div class="push_button" id="tool_delete_multi" title="Delete Selected Elements [Delete/Backspace]"></div>
 		<div class="tool_sep"></div>
 		<div class="push_button" id="tool_group" title="Group Elements [G]"></div>
 		<div class="push_button" id="tool_make_link_multi" title="Make (hyper)link"></div>
@@ -262,9 +268,9 @@
 			</select>
 		</label>
 		<div class="tool_sep"></div>
-
+	-->
 	</div>
-
+	<!--
 	<div id="rect_panel">
 		<div class="toolset">
 			<label id="rect_width_tool" title="Change rectangle width">
@@ -355,7 +361,7 @@
 			</label>
 		</div>
 	</div>
-
+	-->
 	<div id="text_panel">
 		<div class="toolset">
 			<div class="tool_button" id="tool_bold" title="Bold Text [B]"><span></span>B</div>
@@ -399,7 +405,7 @@
 			<input id="g_title" data-attr="title" size="10" type="text"/>
 		</label>
 	</div>
-	
+	<!--
 	<div id="use_panel">
 		<div class="push_button" id="tool_unlink_use" title="Break link to reference element (make unique)"></div>
 	</div>
@@ -408,7 +414,6 @@
 		<div class="push_button" id="tool_ungroup" title="Ungroup Elements [G]"></div>
 	</div>
 
-	<!-- For anchor elements -->
 	<div id="a_panel">
 		<label id="tool_link_url" title="Set link URL (leave empty to remove)">
 			<span id="linkLabel" class="icon_label"></span>
@@ -435,7 +440,7 @@
 		<div class="tool_button" id="tool_node_delete" title="Delete Node"></div>
 		<div class="tool_button" id="tool_openclose_path" title="Open/close sub-path"></div>
 		<div class="tool_button" id="tool_add_subpath" title="Add sub-path"></div>
-	</div>
+	</div> -->
 </div> <!-- tools_top -->
 	<div id="cur_context_panel">
 		
@@ -444,8 +449,8 @@
 
 <div id="tools_left" class="tools_panel">
 	<div class="tool_button" id="tool_select" title="Select Tool"></div>
-	<div class="tool_button" id="tool_fhpath" title="Pencil Tool"></div>
-	<div class="tool_button" id="tool_line" title="Line Tool"></div>
+	<!-- <div class="tool_button" id="tool_fhpath" title="Pencil Tool"></div> -->
+	<!-- <div class="tool_button" id="tool_line" title="Line Tool"></div> -->
 	<div class="tool_button flyout_current" id="tools_rect_show" title="Square/Rect Tool">
 		<div class="flyout_arrow_horiz"></div>
 	</div>
@@ -453,20 +458,16 @@
 		<div class="flyout_arrow_horiz"></div>
 	</div>
 	<div class="tool_button" id="tool_path" title="Path Tool"></div>
-	<div class="tool_button" id="tool_text" title="Text Tool"></div>
-	<div class="tool_button" id="tool_image" title="Image Tool"></div>
-	<div class="tool_button" id="tool_zoom" title="Zoom Tool [Ctrl+Up/Down]"></div>
+	<!-- <div class="tool_button" id="tool_text" title="Text Tool"></div> -->
+	<!-- <div class="tool_button" id="tool_shapelib_show" title="Shape library" data-curopt="#tool_shapelib"></div> -->
 	
 	<div style="display: none">
 		<div id="tool_rect" title="Rectangle"></div>
 		<div id="tool_square" title="Square"></div>
-		<div id="tool_fhrect" title="Free-Hand Rectangle"></div>
 		<div id="tool_ellipse" title="Ellipse"></div>
 		<div id="tool_circle" title="Circle"></div>
-		<div id="tool_fhellipse" title="Free-Hand Ellipse"></div>
 	</div>
 </div> <!-- tools_left -->
-
 <div id="tools_bottom" class="tools_panel">
 
     <!-- Zoom buttons -->
@@ -495,27 +496,32 @@
 	</div>
 
 	<div id="tools_bottom_2">
+
 		<div id="color_tools">
-			
+		
 			<div class="color_tool" id="tool_fill">
+			
 				<label class="icon_label" for="fill_color" title="Change fill color"></label>
 				<div class="color_block">
 					<div id="fill_bg"></div>
 					<div id="fill_color" class="color_block"></div>
 				</div>
+			
 			</div>
-		
+		<!--
 			<div class="color_tool" id="tool_stroke">
+			
 				<label class="icon_label" title="Change stroke color"></label>
 				<div class="color_block">
 					<div id="stroke_bg"></div>
 					<div id="stroke_color" class="color_block" title="Change stroke color"></div>
 				</div>
+				<!--
 				
 				<label class="stroke_label">
 					<input id="stroke_width" title="Change stroke width by 1, shift-click to change by 0.1" size="2" value="5" type="text" data-attr="Stroke Width"/>
 				</label>
-
+				
 				<div id="toggle_stroke_tools" title="Show/hide more stroke tools"></div>
 				
 				<label class="stroke_tool">
@@ -537,10 +543,10 @@
 					<div id="cur_linecap" title="Linecap: Butt"></div>
 					<button></button>
  				</div>
-
+				-->
 			</div>
 
-			<div class="color_tool" id="tool_opacity" title="Change selected item opacity">
+			<!-- <div class="color_tool" id="tool_opacity" title="Change selected item opacity">
 				<label>
 					<span id="group_opacityLabel" class="icon_label"></span>
 					<input id="group_opacity" size="3" value="100" type="text"/>
@@ -556,15 +562,15 @@
 						<li class="special"><div id="opac_slider"></div></li>
 					</ul>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 	</div>
-
+	<!--
 	<div id="tools_bottom_3">
 		<div id="palette_holder"><div id="palette" title="Click to change fill color, shift-click to change stroke color"></div></div>
 	</div>
-	<!-- <div id="copyright"><span id="copyrightLabel">Powered by</span> <a href="http://svg-edit.googlecode.com/" target="_blank">SVG-edit v2.6-beta</a></div> -->
+	 -->
 </div>
 
 <div id="option_lists" class="dropdown">

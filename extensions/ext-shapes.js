@@ -151,7 +151,7 @@ svgEditor.addExtension("shapes", function() {
 		buttons: [{
 			id: "tool_shapelib",
 			type: "mode_flyout", // _flyout
-			position: 6,
+			position: 4,
 			title: "Shape library",
 			events: {
 				"click": function() {

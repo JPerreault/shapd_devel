@@ -44,12 +44,12 @@
             svgCanvas.setSvgString(svgexample);
         }
 
-		function saveSvg() {			
+		function saveSvg() {
 			svgCanvas.getSvgString()(handleSvgData);
 		}
 		
 		function updateScene() {
-			var extrudeSettings = { amount: 20 }; // bevelSegments: 2, steps: 2 , bevelSegments: 5, bevelSize: 8, bevelThickness:5
+			var extrudeSettings = { amount: 20 };
 			extrudeSettings.bevelEnabled = true;
 			extrudeSettings.bevelSegments = 2;
 			extrudeSettings.steps = 2;
@@ -58,7 +58,7 @@
 			{
 				scene.remove(parent);
 				parent.children = [];
-				addShape( svgToThreeD(data), extrudeSettings, 0xffee00, 0, 0, 0, 0, 0, 0, .12 );
+				addShape( svgToThreeD(data), extrudeSettings, 0xFF0000, 0, 0, 0, 0, 0, 0, .12 );
 				scene.add(parent);
 			})
 		}

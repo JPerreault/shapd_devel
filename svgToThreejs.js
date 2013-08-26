@@ -16,7 +16,7 @@ function svgToThreeD(svgString)
 		nextShape = getNextShape(svgIndexer);
 		shapeNumber++;
 	}
-		
+	
 	for (var i = 0; i < toop.length; i++)
 	{
 		shapes[i] = svgDescToThreejs(toop[i]);
@@ -148,25 +148,26 @@ function parseCircle(svgString)
 	var descArray = [];
 	var numberLength = 0;
 	var tempString = svgString.substr(currentPoint, svgString.length);
+
 	var cx = cy = r = '';
 	
-	while (svgString[svgString.indexOf('cx="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('cx="') + 4 + numberLength] !== '"')
 	{
-		cx += svgString[svgString.indexOf('cx="') + 4 + numberLength];
+		cx += tempString[tempString.indexOf('cx="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;
 	
-	while (svgString[svgString.indexOf('cy="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('cy="') + 4 + numberLength] !== '"')
 	{
-		cy += svgString[svgString.indexOf('cy="') + 4 + numberLength];
+		cy += tempString[tempString.indexOf('cy="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;
 	
-	while (svgString[svgString.indexOf('r="') + 3 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('r="') + 3 + numberLength] !== '"')
 	{
-		r += svgString[svgString.indexOf('r="') + 3 + numberLength];
+		r += tempString[tempString.indexOf('r="') + 3 + numberLength];
 		numberLength++;
 	}
 	
@@ -199,30 +200,30 @@ function parseEllipse(svgString)
 	var tempString = svgString.substr(currentPoint, svgString.length);
 	var cx = cy = rx = ry = '';
 	
-	while (svgString[svgString.indexOf('cx="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('cx="') + 4 + numberLength] !== '"')
 	{
-		cx += svgString[svgString.indexOf('cx="') + 4 + numberLength];
+		cx += tempString[tempString.indexOf('cx="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;
 	
-	while (svgString[svgString.indexOf('cy="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('cy="') + 4 + numberLength] !== '"')
 	{
-		cy += svgString[svgString.indexOf('cy="') + 4 + numberLength];
+		cy += tempString[tempString.indexOf('cy="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;
 	
-	while (svgString[svgString.indexOf('rx="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('rx="') + 4 + numberLength] !== '"')
 	{
-		rx += svgString[svgString.indexOf('rx="') + 4 + numberLength];
+		rx += tempString[tempString.indexOf('rx="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;
 	
-	while (svgString[svgString.indexOf('ry="') + 4 + numberLength] !== '"')
+	while (tempString[tempString.indexOf('ry="') + 4 + numberLength] !== '"')
 	{
-		ry += svgString[svgString.indexOf('ry="') + 4 + numberLength];
+		ry += tempString[tempString.indexOf('ry="') + 4 + numberLength];
 		numberLength++;
 	}
 	numberLength = 0;

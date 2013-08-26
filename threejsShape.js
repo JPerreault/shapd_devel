@@ -20,7 +20,6 @@ function init() {
 
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
-	container.style.zIndex = 100;
 
 	camera = new THREE.PerspectiveCamera( 4, window.innerWidth / window.innerHeight, 500, 100000 );
 	camera.position.z = 1000;
@@ -118,6 +117,7 @@ function render() {
 function addShape( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s ) {
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ new THREE.MeshLambertMaterial( { color: color } ), new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true } ) ] );
+		//var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0x000000, ambient: 0x000000, shading: THREE.SmoothShading } ), new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0x000000, ambient: 0x000000, shading: THREE.SmoothShading } )] );
 		mesh.position.set( x, y, z );
 		mesh.rotation.set( rx, ry, rz );
 		mesh.scale.set( s, s, s );

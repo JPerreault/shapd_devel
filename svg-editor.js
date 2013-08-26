@@ -57,7 +57,7 @@
 				langPath: 'locale/',
 				extPath: 'extensions/',
 				jGraduatePath: 'jgraduate/images/',
-				extensions: ['ext-markers.js','ext-connector.js', 'ext-eyedropper.js', 'ext-shapes.js', 'ext-imagelib.js','ext-grid.js'],
+				extensions: ['ext-markers.js','ext-connector.js', 'ext-shapes.js', 'ext-imagelib.js','ext-grid.js'],
 				initTool: 'select',
 				wireframe: false,
 				colorPickerCSS: null,
@@ -781,7 +781,7 @@
 				// In the event a gradient was flipped:
 				if(selectedElement && mode === "select") {
 					paintBox.fill.update();
-					paintBox.stroke.update();
+					//paintBox.stroke.update();
 				}
 
 				svgCanvas.runExtensions("elementChanged", {
@@ -1432,7 +1432,7 @@
 						break;
 					default:
 						paintBox.fill.update(true);
-						paintBox.stroke.update(true);
+						//paintBox.stroke.update(true);
 						//console.log(paintBox.fill);
 
 						$('#stroke_width').val(selectedElement.getAttribute("stroke-width") || 1);
@@ -3569,7 +3569,7 @@
 			};
 
 			paintBox.fill = new PaintBox('#fill_color', 'fill');
-			paintBox.stroke = new PaintBox('#stroke_color', 'stroke');
+			//paintBox.stroke = new PaintBox('#stroke_color', 'stroke');
 
 			$('#stroke_width').val(curConfig.initStroke.width);
 			$('#group_opacity').val(curConfig.initOpacity * 100);
@@ -4534,7 +4534,7 @@
 				if(w == w_orig && h == h_orig) {
 					workarea.css('overflow','hidden');
 				} else {
-					workarea.css('overflow','scroll');
+					workarea.css('overflow','hidden');
 				}
 
 				var old_can_y = cnvs.height()/2;
