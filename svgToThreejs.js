@@ -1,10 +1,10 @@
 var currentPoint, numberLength;
 var descArray = [];
+var shapes = [];
 
 function svgToThreeD(svgString)
 {
 	var toop = [];
-	var shapes = [];
 	var svgIndexer = svgString;
 	var shapeNumber = 0;
 	var nextShape = getNextShape(svgIndexer);
@@ -19,8 +19,22 @@ function svgToThreeD(svgString)
 	
 	for (var i = 0; i < toop.length; i++)
 	{
+		var extrudeSettings;
+		if (typeof shapes[i] === 'undefined')
+		{
+			extrudeSettings = { amount: 20 };
+			extrudeSettings.bevelEnabled = true;
+			extrudeSettings.bevelSegments = 2;
+			extrudeSettings.steps = 2;
+		}
+		else
+			extrudeSettings = shapes[i].extrudeSettings;
 		shapes[i] = svgDescToThreejs(toop[i]);
+		console.log(extrudeSettings.amount);
+
+		shapes[i].extrudeSettings = extrudeSettings;
 	}
+	
 	return shapes;
 }
 

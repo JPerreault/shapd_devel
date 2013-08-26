@@ -1,11 +1,13 @@
 var container, stats;
 
-var camera, scene, renderer;
+var camera, scene, renderer, raycaster, projector;
 
 var text, plane;
+var movePlz = false;
 
 var targetRotation = 0;
 var targetRotationOnMouseDown = 0;
+var INTERSECTED, HIGHLIGHTED;
 
 var mouseX = 0;
 var mouseXOnMouseDown = 0;
@@ -29,6 +31,9 @@ function init() {
 	var light = new THREE.DirectionalLight( 0xffffff );
 	light.position.set( 0, 0, 1 );
 	scene.add( light );
+	
+	projector = new THREE.Projector();
+	raycaster = new THREE.Raycaster();
 
 	parent = new THREE.Object3D();
 	scene.add( parent );
@@ -39,6 +44,7 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
@@ -60,27 +66,62 @@ function onWindowResize() {
 
 function onDocumentMouseDown( event ) {
 	event.preventDefault();
-	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	movePlz = true;
 	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.addEventListener( 'mouseout', onDocumentMouseOut, false );
 	mouseXOnMouseDown = event.clientX - windowHalfX;
 	targetRotationOnMouseDown = targetRotation;
+	
+	var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
+	projector.unprojectVector( vector, camera );
+	raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+	var intersects = raycaster.intersectObjects( parent.children, true );
+	
+	if ( intersects.length > 0 ) 
+	{	
+		shapes[intersects[0].object.parent.idNumber].extrudeSettings.amount = 50;
+		updateScene();
+		//addShape(parent.children[0],  extrudeSettings, 0xFF0000, .12);
+	}
 
 }
 
 function onDocumentMouseMove( event ) {
-	mouseX = event.clientX - windowHalfX;
-	targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+	if (movePlz)
+	{
+		mouseX = event.clientX - windowHalfX;
+		targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
+	}
+	
+	var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
+	projector.unprojectVector( vector, camera );
+	raycaster.set( camera.position, vector.sub( camera.position ).normalize() );
+	var intersects = raycaster.intersectObjects( parent.children, true );
+	
+	if ( intersects.length > 0 ) 
+	{		
+		if ( HIGHLIGHTED != intersects[ 0 ].object ) 
+		{
+			HIGHLIGHTED = intersects[ 0 ].object;
+			HIGHLIGHTED.material.opacity = 0.7;
+		}
+	} 
+	else 
+	{
+		if ( HIGHLIGHTED ) 
+			HIGHLIGHTED.material.opacity = 1;
+		HIGHLIGHTED = null;
+	}
 }
 
 function onDocumentMouseUp( event ) {
-	document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+	movePlz = false;
 	document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
 }
 
 function onDocumentMouseOut( event ) {
-	document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+	movePlz = false;
 	document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
 	document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
 }
@@ -109,17 +150,22 @@ function animate() {
 	render();
 }
 
+// function render() {
+	// parent.rotation.y += ( targetRotation - parent.rotation.y ) * 0.05;
+	// renderer.render( scene, camera );
+// }
+
 function render() {
-	parent.rotation.y += ( targetRotation - parent.rotation.y ) * 0.05;
+	parent.rotation.y += ( targetRotation - parent.rotation.y ) * 0.05;	
 	renderer.render( scene, camera );
 }
 
-function addShape( shape, extrudeSettings, color, x, y, z, rx, ry, rz, s ) {
+function addShape( shape, color, s, id ) {
+		var extrudeSettings = shape.extrudeSettings;
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
 		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ new THREE.MeshLambertMaterial( { color: color } ), new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true } ) ] );
 		//var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0x000000, ambient: 0x000000, shading: THREE.SmoothShading } ), new THREE.MeshLambertMaterial( { color: 0x666666, emissive: 0x000000, ambient: 0x000000, shading: THREE.SmoothShading } )] );
-		mesh.position.set( x, y, z );
-		mesh.rotation.set( rx, ry, rz );
 		mesh.scale.set( s, s, s );
+		mesh.idNumber = id;
 		parent.add( mesh );
 }

@@ -39,34 +39,29 @@
 			}			
         }
         
-        function loadSvg() {
-            var svgexample = '<svg width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><title>Layer 1</title><rect stroke-width="5" stroke="#000000" fill="#FF0000" id="svg_1" height="35" width="51" y="35" x="32"/><ellipse ry="15" rx="24" stroke-width="5" stroke="#000000" fill="#0000ff" id="svg_2" cy="60" cx="66"/></g></svg>';
-            svgCanvas.setSvgString(svgexample);
-        }
+        //function loadSvg() {
+        //    var svgexample = '<svg width="640" height="480" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><title>Layer 1</title><rect stroke-width="5" stroke="#000000" fill="#FF0000" id="svg_1" height="35" width="51" y="35" x="32"/><ellipse ry="15" rx="24" stroke-width="5" stroke="#000000" fill="#0000ff" id="svg_2" cy="60" cx="66"/></g></svg>';
+        //    svgCanvas.setSvgString(svgexample);
+        //}
 
-		function saveSvg() {
-			svgCanvas.getSvgString()(handleSvgData);
-		}
+		//function saveSvg() {
+		//	svgCanvas.getSvgString()(handleSvgData);
+		//}
 		
 		function updateScene() {
-			var extrudeSettings = { amount: 20 };
-			extrudeSettings.bevelEnabled = true;
-			extrudeSettings.bevelSegments = 2;
-			extrudeSettings.steps = 2;
-			
 			svgCanvas.getSvgString()(function(data, error) 
 			{
 				scene.remove(parent);
 				parent.children = [];
-				addShape( svgToThreeD(data), extrudeSettings, 0xFF0000, 0, 0, 0, 0, 0, 0, .12 );
+				shapes = svgToThreeD(data);
+				
+				for (var i = 0; i < shapes.length; i++)
+					addShape(shapes[i], 0xFF0000, .12, i);
 				scene.add(parent);
 			})
 		}
     </script>
 
-
-    <button onclick="loadSvg();">Load example</button>
-    <button onclick="saveSvg();">Save data</button>
 	<button onclick="updateScene();">Update Threejs</button>
     <br/>
 
