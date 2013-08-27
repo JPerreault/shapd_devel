@@ -5,6 +5,8 @@ var shapes = [];
 function svgToThreeD(svgString)
 {
 	var toop = [];
+	var oldShapes = shapes;
+	shapes = [];
 	var svgIndexer = svgString;
 	var shapeNumber = 0;
 	var nextShape = getNextShape(svgIndexer);
@@ -20,19 +22,22 @@ function svgToThreeD(svgString)
 	for (var i = 0; i < toop.length; i++)
 	{
 		var extrudeSettings;
-		if (typeof shapes[i] === 'undefined')
+		var idOfSvg = toop[i].svgId;
+		
+		if (typeof oldShapes[i] !== 'undefined' && idOfSvg === oldShapes[i].svgId)
+			extrudeSettings = oldShapes[i].extrudeSettings;
+		else
 		{
 			extrudeSettings = { amount: 20 };
 			extrudeSettings.bevelEnabled = true;
 			extrudeSettings.bevelSegments = 2;
 			extrudeSettings.steps = 2;
 		}
-		else
-			extrudeSettings = shapes[i].extrudeSettings;
+		
 		shapes[i] = svgDescToThreejs(toop[i]);
-		console.log(extrudeSettings.amount);
-
+		shapes[i].svgId = idOfSvg;
 		shapes[i].extrudeSettings = extrudeSettings;
+		//console.log(extrudeSettings.amount);
 	}
 	
 	return shapes;
@@ -108,6 +113,18 @@ function parseShape(svgString, type)
 	else if (type === 'rect')
 		parsedShape = parseRect(svgString);
 		
+	var svgId = '';
+	var numberLength = 0;
+	var tempString = svgString.substr(svgString.indexOf(type), svgString.length);
+
+	while (tempString[tempString.indexOf('svg_') + 4 + numberLength] !== '"')
+	{
+		svgId += tempString[tempString.indexOf('svg_') + 4 + numberLength];
+		numberLength++;
+	}
+	var id = parseInt(svgId);
+		
+	parsedShape.svgId = id;
 	return parsedShape;
 }
 
@@ -154,6 +171,7 @@ function parsePath(svgString)
 			type = 'bezierCurveTo';
 	}
 	
+	//currentPoint = svgString.indexOf('path') + 4;
 	return descArray;
 }
 
