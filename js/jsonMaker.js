@@ -6,7 +6,6 @@ function getJson()
 	var data = [];
 	var figure = currentMesh.figure;
 	var scale = figure.scale.x;
-	figure.material.name = currentMesh['Material'];
 	var material = calculateMaterial(figure);
 	var volume = calculateVolume(figure, scale);
 	var surfaceArea = calculateSurfaceArea(figure, scale);
@@ -307,127 +306,127 @@ function calculateXYZ(figure, scale)
 
 function calculateMaterial(figure)
 {
-	if (figure.material.name == 'Plastic regular white'){
+	if (currentMesh['Material'] == 'Plastic regular white'){
 		websiteName = 'shapeways';
 		return 6;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular black'){
+	else if (currentMesh['Material'] == 'Plastic regular black'){
 		websiteName = 'shapeways';
 		return 25;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular white polished'){
+	else if (currentMesh['Material'] == 'Plastic regular white polished'){
 		websiteName = 'shapeways';
 		return 62;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular red polished'){
+	else if (currentMesh['Material'] == 'Plastic regular red polished'){
 		websiteName = 'shapeways';
 		return 76;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular purple polished'){
+	else if (currentMesh['Material'] == 'Plastic regular purple polished'){
 		websiteName = 'shapeways';
 		return 75;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular pink polished'){
+	else if (currentMesh['Material'] == 'Plastic regular pink polished'){
 		websiteName = 'shapeways';
 		return 77;
 	}	
 	
-	else if (figure.material.name == 'Plastic regular blue polished'){
+	else if (currentMesh['Material'] == 'Plastic regular blue polished'){
 		websiteName = 'shapeways';
 		return 78;
 	}
 	
-	else if (figure.material.name == 'Plastic detail white'){
+	else if (currentMesh['Material'] == 'Plastic detail white'){
 		websiteName = 'shapeways';
 		return 5;
 	}
 	
-	else if (figure.material.name == 'Plastic detail black'){
+	else if (currentMesh['Material'] == 'Plastic detail black'){
 		websiteName = 'shapeways';
 		return 7;
 	}
 	
-	else if (figure.material.name == 'Prime gray'){
+	else if (currentMesh['Material'] == 'Prime gray'){
 		websiteName = 'iMaterialise';
 		return '2e7b80e9-634b-485a-bc40-5e4324078b54'
 	}
 	
-	else if (figure.material.name.indexOf('Transparent') !== -1){
+	else if (currentMesh['Material'].indexOf('Transparent') !== -1){
 		websiteName = 'iMaterialise';
 		return '7bd84076-b86d-45c5-b498-766484b02ad9';
 	}	
 
-	else if (figure.material.name == 'Alumide regular'){
+	else if (currentMesh['Material'] == 'Alumide regular'){
 		websiteName = 'shapeways';
 		return 28;
 	}
 	
-	else if (figure.material.name == 'Alumide polished'){
+	else if (currentMesh['Material'] == 'Alumide polished'){
 		websiteName = 'shapeways';
 		return 66;
 	}	
 	
-	else if (figure.material.name == 'Brass regular'){
+	else if (currentMesh['Material'] == 'Brass regular'){
 		websiteName = 'iMaterialise';
 		return '170d6e35-8f0d-4f92-8408-2d3e095c256e';
 	}	
 	
-	else if (figure.material.name == 'Brass gold plated polished'){
+	else if (currentMesh['Material'] == 'Brass gold plated polished'){
 		websiteName = 'shapeways';
 		return 83;
 	}
 			
-	else if (figure.material.name == 'Stainless steel regular'){
+	else if (currentMesh['Material'] == 'Stainless steel regular'){
 		websiteName = 'shapeways';
 		return 23;
 	}	
 				
-	else if (figure.material.name == 'Stainless steel bronze matte'){
+	else if (currentMesh['Material'] == 'Stainless steel bronze matte'){
 		websiteName = 'shapeways';
 		return 37;
 	}	
 	
-	else if (figure.material.name == 'Stainless steel bronze glossy'){
+	else if (currentMesh['Material'] == 'Stainless steel bronze glossy'){
 		websiteName = 'shapeways';
 		return 38;
 	}
 					
-	else if (figure.material.name == 'Stainless steel gold matte'){
+	else if (currentMesh['Material'] == 'Stainless steel gold matte'){
 		websiteName = 'shapeways';
 		return 23;
 	}	
 
-	else if (figure.material.name == 'Stainless steel gold glossy'){
+	else if (currentMesh['Material'] == 'Stainless steel gold glossy'){
 		websiteName = 'shapeways';
 		return 39;
 	}
 		
-	else if (figure.material.name == 'Silver regular'){
+	else if (currentMesh['Material'] == 'Silver regular'){
 		websiteName = 'shapeways';
 		return 53;
 	}
 		
-	else if (figure.material.name == 'Silver glossy'){
+	else if (currentMesh['Material'] == 'Silver glossy'){
 		websiteName = 'shapeways';
 		return 54;
 	}
 					
-	else if (figure.material.name == 'Silver premium'){
+	else if (currentMesh['Material'] == 'Silver premium'){
 		websiteName = 'shapeways';
 		return 81;
 	}	
 			
-	else if (figure.material.name.indexOf('Titanium') !== -1){
+	else if (currentMesh['Material'].indexOf('Titanium') !== -1){
 		websiteName = 'iMaterialise';
 		return '12a65a42-df49-47a9-8828-0efaf84c5509';
 	}
 	
-	else if (figure.material.name == 'Regular gold'){
+	else if (currentMesh['Material'] == 'Regular gold'){
 		websiteName = 'iMaterialise';
 		return 'd01a95ab-aaba-44f0-a4b6-8f72b66655b1';
 	}
@@ -435,38 +434,38 @@ function calculateMaterial(figure)
 
 function calculateFinishId(figure)
 {
-	if (figure.material.name == 'Prime gray'){
+	if (currentMesh['Material'] == 'Prime gray'){
 		return '0261af53-8fed-4854-a248-4b111d759f8d';
 	}
-	else if (figure.material.name == 'Transparent resin white'){
+	else if (currentMesh['Material'] == 'Transparent resin white'){
 		return 'e1b52251-6eba-4a26-a46b-66898f3831d7';
 	}	
 
-	else if (figure.material.name == 'Transparent resin red'){
+	else if (currentMesh['Material'] == 'Transparent resin red'){
 		return '2fd1fcd5-9677-4e31-835d-0eb8e60630a4';
 	}	
 	
-	else if (figure.material.name == 'Transparent resin blue'){
+	else if (currentMesh['Material'] == 'Transparent resin blue'){
 		return 'f7fcc397-5f84-407b-ac61-2566c8cba9ef';
 	}	
 
-	else if (figure.material.name == 'Transparent resin yellow'){
+	else if (currentMesh['Material'] == 'Transparent resin yellow'){
 		return '08d03489-eafd-480a-8085-93778d288828';
 	}	
 	
-	else if (figure.material.name == 'Brass regular'){
+	else if (currentMesh['Material'] == 'Brass regular'){
 		return '9c31bfc6-dba0-40c1-8cc0-048d9df487af';
 	}	
 	
-	else if (figure.material.name == 'Titanium unpolished'){
+	else if (currentMesh['Material'] == 'Titanium unpolished'){
 		return 'c9c27ce3-eee4-47e4-a896-a9010a7971fd';
 	}
 					
-	else if (figure.material.name == 'Titanium polished'){
+	else if (currentMesh['Material'] == 'Titanium polished'){
 		return '7fbdfe5d-4f92-4038-99bd-42009ff9a4b4';
 	}
 	
-	else if (figure.material.name == 'Regular gold'){
+	else if (currentMesh['Material'] == 'Regular gold'){
 		return '8f1cc7fa-8422-43e3-abf7-a7a2f8f63b8f';
 	}
 }

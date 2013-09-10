@@ -7,6 +7,7 @@ var GuiInit = function(){
 	loopRotations();
 	addCost();
 	addMaterialSelector();
+	addFinalizeSliders()
 
 	function loopRotations(){
 		var loopRotContainer = document.createElement('div');
@@ -467,5 +468,140 @@ var GuiInit = function(){
 		loopText.style.left = '50%';
 		loopText.style.marginLeft = '-165px';
 		document.body.appendChild(loopText);
+	}
+	
+	function addFinalizeSliders() {
+		var finalizeSliderContainer = document.createElement('div');
+		finalizeSliderContainer.id = 'sliderContainer';
+		finalizeSliderContainer.style.bottom = '1%';
+		finalizeSliderContainer.style.left = '50%';
+		finalizeSliderContainer.style.marginLeft = '-155px';
+		finalizeSliderContainer.style.marginTop = '5px';
+		finalizeSliderContainer.style.position = 'absolute';
+		finalizeSliderContainer.style.zIndex = '1000';
+		document.body.appendChild(finalizeSliderContainer);
+		
+		//Dimensions boxes
+
+		var dimsContainer = document.createElement('div');
+		dimsContainer.id = 'idDimsContainer';
+		dimsContainer.style.position = 'relative';
+		dimsContainer.style.display = 'block';
+		finalizeSliderContainer.appendChild(dimsContainer);
+			
+		var hDimDiv = document.createElement('div');
+		hDimDiv.id = 'idHShapeDiv';
+		hDimDiv.style.position = 'relative';
+		hDimDiv.className = 'rounded';
+		hDimDiv.innerHTML += '<span style="font-size: 16px"><b>0.02 H</b></span><br><span style="font-size: 12px">(Inches)<span>';
+		hDimDiv.style.background = '#000';
+		hDimDiv.style.display = 'inline-block';
+		hDimDiv.style.color = '#fff';
+		hDimDiv.style.padding = '3px 3px 9px 3px';
+		hDimDiv.style.marginTop = '5px';
+		hDimDiv.style.marginRight = '8px';
+		hDimDiv.style.marginBottom = '12px';
+		hDimDiv.style.width = '90px';
+		hDimDiv.style.zIndex = '1000';
+		dimsContainer.appendChild(hDimDiv);
+		
+		var vDimDiv = hDimDiv.cloneNode(true);
+		vDimDiv.id = 'idVShapeDiv';
+		vDimDiv.innerHTML += '<span style="font-size: 24px"><b>0.02 W</b></span><br><span style="font-size: 14px">(Inches)<span>';
+		dimsContainer.appendChild(vDimDiv);
+		
+		var dDimDiv = hDimDiv.cloneNode(true);
+		dDimDiv.id = 'idDShapeDiv';
+		dDimDiv.innerHTML += '<span style="font-size: 24px"><b>0.02 W</b></span><br><span style="font-size: 14px">(Inches)<span>';
+		dimsContainer.appendChild(dDimDiv);
+
+		//Sliders
+		
+		var allSlidersContainer = document.createElement('div');
+		allSlidersContainer.id = 'idAllSlidersContainer';
+		allSlidersContainer.style.display = 'inline-block';
+		finalizeSliderContainer.appendChild(allSlidersContainer);
+		
+		var sliderFinalizeContainer1 = document.createElement('div');
+		sliderFinalizeContainer1.id = 'idSliderFinalizeContainer1';
+		sliderFinalizeContainer1.style.display = 'inline-block';
+		sliderFinalizeContainer1.style.marginBottom = '3px';
+		sliderFinalizeContainer1.style.verticalAlign = 'top';
+		allSlidersContainer.appendChild(sliderFinalizeContainer1);
+		
+		var sliderFinalLabel1 = document.createElement('div');
+		sliderFinalLabel1.id = 'idSliderFinalLabel1';
+		sliderFinalLabel1.style.color = '#fff';
+		sliderFinalLabel1.style.opacity = '0.9';
+		sliderFinalLabel1.style.fontFamily = 'Helvetica, Verdana, Geneva, sans-serif;';
+		sliderFinalLabel1.style.position = 'relative';
+		sliderFinalLabel1.textContent = 'Scale';
+		sliderFinalLabel1.style.fontWeight = '600';
+		sliderFinalLabel1.style.width = '80px';
+		sliderFinalLabel1.className = 'blackContainer';
+		sliderFinalLabel1.style.paddingBottom = '4px';
+		sliderFinalLabel1.style.paddingTop = '4px';
+		sliderFinalLabel1.style.paddingRight = '7px';
+		sliderFinalLabel1.style.paddingLeft = '7px';
+		sliderFinalLabel1.style.fontSize = '15px';
+		sliderFinalLabel1.style.marginRight = '20px';
+		sliderFinalLabel1.style.background = '#000';
+		sliderFinalLabel1.style.display = 'inline-block';
+		sliderFinalizeContainer1.appendChild(sliderFinalLabel1);
+		
+		var sliderFinal1 = document.createElement('div');
+		sliderFinal1.id = 'slider';
+		sliderFinal1.style.width = '260px';
+		sliderFinal1.className = 'menuHeader';
+		sliderFinal1.style.position = 'relative';
+		sliderFinal1.style.display = 'inline';
+		sliderFinal1.style.marginTop = '5px';
+		sliderFinal1.style.verticalAlign = 'middle';
+		sliderFinal1.style.cssFloat = 'right';
+		sliderFinalizeContainer1.appendChild(sliderFinal1);
+
+		var expandedControls = document.createElement('div');
+		expandedControls.id = 'thickdepthfinalize';
+		expandedControls.style.width = '400px';
+		allSlidersContainer.appendChild(expandedControls);
+		
+		var sliderFinalizeContainer2 = sliderFinalizeContainer1.cloneNode(false);
+		sliderFinalizeContainer2.id = 'idSliderFinalizeContainer2';
+		expandedControls.appendChild(sliderFinalizeContainer2);
+		
+		var sliderFinalLabel2 = sliderFinalLabel1.cloneNode(true);
+		sliderFinalLabel2.id = 'idSliderFinalLabel2';
+		sliderFinalLabel2.textContent = 'Thickness';
+		sliderFinalizeContainer2.appendChild(sliderFinalLabel2);
+		
+		var sliderFinal2 = sliderFinal1.cloneNode(true);
+		sliderFinal2.id = 'thickslider';
+		//sliderFinal2.style.width = '160px';
+		sliderFinalizeContainer2.appendChild(sliderFinal2);
+						
+		var sliderFinalizeContainer3 = sliderFinalizeContainer1.cloneNode(false);
+		sliderFinalizeContainer3.id = 'idSliderFinalizeContainer3';
+		expandedControls.appendChild(sliderFinalizeContainer3);
+		
+		var sliderFinalLabel3 = sliderFinalLabel1.cloneNode(true);
+		sliderFinalLabel3.id = 'idSliderFinalLabel3';
+		sliderFinalLabel3.textContent = 'Depth';
+		sliderFinalizeContainer3.appendChild(sliderFinalLabel3);
+		
+		var sliderFinal3 = sliderFinal1.cloneNode(true);
+		sliderFinal3.id = 'depthslider';
+		//sliderFinal3.style.width = '160px';
+		sliderFinalizeContainer3.appendChild(sliderFinal3);
+		
+		var moreOptions = document.createElement('button');
+		moreOptions.id = 'idMoreOptions';
+		moreOptions.className = 'buttonVerySmall';
+		moreOptions.style.fontSize = '16px';
+		moreOptions.style.marginTop = '5px';
+		moreOptions.style.marginRight = 'auto';
+		moreOptions.style.marginLeft = 'auto';
+		moreOptions.innerHTML = 'More';
+		//moreOptions.style.display = 'block';
+		allSlidersContainer.appendChild(moreOptions);
 	}
 }

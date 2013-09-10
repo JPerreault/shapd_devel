@@ -133,7 +133,7 @@ var SceneWrapper = function(tMB, textureCube, tMP, sMB) {
 		var scale = 1;
         this.scene.remove( currentMesh.figure );
 		//svgMeshBuilder.build();
-		console.log('SCENEWRAPPER: ', svgShape.children);
+		//console.log('SCENEWRAPPER: ', svgShape.children);
 		currentMesh.figure = svgShape;
 
 		currentMesh.figure.rotation.x = xRotation;

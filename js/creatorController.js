@@ -178,7 +178,7 @@ function updateThickness(isMove)
 
 function getNewPrice()
 {
-	var jsonString = getJson();
+	//var jsonString = getJson();
 	document.getElementById('idCostData').innerHTML = 'Pricing...';	
 	saveButtonClick(false);
 

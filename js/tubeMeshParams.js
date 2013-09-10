@@ -106,22 +106,47 @@ var TubeMeshParams = function(){
 	
 	this.calculateDimensions = function(variables)
 	{
-		currentMesh.figure.geometry.computeBoundingBox();
-		var boundingBox = currentMesh.figure.geometry.boundingBox;
+		xMin = 999999999999999;
+		yMin = 999999999999999;
+		zMin = 999999999999999;
+		xMax = -999999999999999;
+		yMax = -999999999999999;
+		zMax = -999999999999999;
 		
-		var dimensions = [];
-		var scale = currentMesh.figure.scale.x;
-
-		var xMin = boundingBox.min.x * scale;
-		var yMin = boundingBox.min.y * scale;
-		var zMin = boundingBox.min.z * scale;
-		var xMax = boundingBox.max.x * scale;
-		var yMax = boundingBox.max.y * scale;
-		var zMax = boundingBox.max.z * scale;
+		for (var i = 0; i < currentMesh.figure.children.length; i++)
+		{
+			for (var j = 0; j < currentMesh.figure.children[i].children.length; j++)
+			{
+				currentMesh.figure.children[i].children[j].geometry.computeBoundingBox();
+				var boundingBox = currentMesh.figure.children[i].children[j].geometry.boundingBox;
+				
+				var dimensions = [];
+				var scale = currentMesh.figure.children[i].scale.x;
+				
+				var tmpXMin = boundingBox.min.x * scale;
+				var tmpYMin = boundingBox.min.y * scale;
+				var tmpZMin = boundingBox.min.z * scale;
+				var tmpXMax = boundingBox.max.x * scale;
+				var tmpYMax = boundingBox.max.y * scale;
+				var tmpZMax = boundingBox.max.z * scale;
+				
+				if (tmpXMin < xMin)
+					xMin = tmpXMin;
+				if (tmpYMin < yMin)
+					yMin = tmpYMin;
+				if (tmpZMin < zMin)
+					zMin = tmpZMin;
+				if (tmpXMax > xMax)
+					xMax = tmpXMax;
+				if (tmpYMax > yMax)
+					yMax = tmpYMax;
+				if (tmpZMax > zMax)
+					zMax = tmpZMax;
+			}
+		}
+		
 		var xVal, yVal, zVal;
-	
-		
-		this.xDim = (xMax - xMin);
+		this.xDim = (xMax - xMin); //May need to be adjusted, used for printability checks
 		this.yDim = (yMax - yMin);
 		this.zDim = (zMax - zMin);
 		
@@ -145,7 +170,7 @@ var TubeMeshParams = function(){
 			if (toruszMin < zMin)
 				zMin = toruszMin;
 			if (torusxMax > xMax)
-				xMin = torusxMin;
+				xMax = torusxMin;
 			if (torusyMax > yMax)
 				yMax = torusyMax;
 			if (toruszMax > zMax)
@@ -162,23 +187,23 @@ var TubeMeshParams = function(){
 		
 		if (variables === 'xyz')
 		{
-			//document.getElementById('idCostDim').innerHTML = this.figure.material.name + '<br>' + xVal + ' (w) x '  + yVal + ' (h) x ' + zVal + ' (d)<br> <span style="font-size:12px">(Dimensions in Inches)</span>';
-			//document.getElementById('idVShapeDiv').innerHTML = '<span class="largeDimText">' + yVal + ' H</span><br><span class="smallDimText">(Inches high)<span>';
-			//document.getElementById('idHShapeDiv').innerHTML = '<span class="largeDimText">' + xVal + ' W</span><br><span class="smallDimText">(Inches wide)<span>';
-			//document.getElementById('idDShapeDiv').innerHTML = '<span class="largeDimText">' + zVal + ' D</span><br><span class="smallDimText">(Inches deep)<span>';	
+			document.getElementById('idCostDim').innerHTML = this.figure.children[0].children[0].material.name + '<br>' + xVal + ' (w) x '  + yVal + ' (h) x ' + zVal + ' (d)<br> <span style="font-size:12px">(Dimensions in Inches)</span>';
+			document.getElementById('idVShapeDiv').innerHTML = '<span class="largeDimText">' + yVal + ' H</span><br><span class="smallDimText">(Inches high)<span>';
+			document.getElementById('idHShapeDiv').innerHTML = '<span class="largeDimText">' + xVal + ' W</span><br><span class="smallDimText">(Inches wide)<span>';
+			document.getElementById('idDShapeDiv').innerHTML = '<span class="largeDimText">' + zVal + ' D</span><br><span class="smallDimText">(Inches deep)<span>';	
 		}
 		else if (variables === 'xy')
 		{
-			//document.getElementById('idVShapeDiv').innerHTML = '<span class="largeDimText">' + yVal + ' H</span><br><span class="smallDimText">(Inches high)<span>';
-			//document.getElementById('idHShapeDiv').innerHTML = '<span class="largeDimText">' + xVal + ' W</span><br><span class="smallDimText">(Inches wide)<span>';	
-			//document.getElementById('idDShapeDiv').innerHTML = '<span class="largeDimText">' + zVal + ' D</span><br><span class="smallDimText">(Inches deep)<span>';
+			document.getElementById('idVShapeDiv').innerHTML = '<span class="largeDimText">' + yVal + ' H</span><br><span class="smallDimText">(Inches high)<span>';
+			document.getElementById('idHShapeDiv').innerHTML = '<span class="largeDimText">' + xVal + ' W</span><br><span class="smallDimText">(Inches wide)<span>';	
+			document.getElementById('idDShapeDiv').innerHTML = '<span class="largeDimText">' + zVal + ' D</span><br><span class="smallDimText">(Inches deep)<span>';
 		}
 	}
 	
 	this.checkDimensions = function()
 	{
 		var dimensionsPrintable = 'success';
-		var material = this.figure.material.name;
+		var material = this.figure.children[0].children[0].material.name;
 		var thicknessOfWire = currentMesh['Thickness'] * currentMesh.figure.scale.x;
 
 		if (material.indexOf('Plastic') !== -1 || material.indexOf('Transparent resin') !== -1 || material.indexOf('Prime gray') !== -1 || material === 'Alumide regular')
@@ -216,7 +241,7 @@ var TubeMeshParams = function(){
 	this.checkUpperDimensions = function()
 	{
 		var fitsBounds;
-		var material = this.figure.material.name;
+		var material = this.figure.children[0].children[0].material.name;
 		
 		if (material === 'Plastic regular white' || material === 'Plastic regular black')
 			fitsBounds = (this.xDim < 220 && this.yDim < 170 && this.zDim < 300);

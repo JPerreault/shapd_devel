@@ -14,7 +14,6 @@ var SvgMeshBuilder = function(materialsLibrary)
 	{
 		svgCanvas.getSvgString()(function(data, error) 
 			{
-			console.log('Entered');
 			currentMesh['Scale'] = .12;
 			svgShape = new THREE.Object3D();
 			shapes = svgToThreeD(data);
@@ -29,7 +28,7 @@ var SvgMeshBuilder = function(materialsLibrary)
 	function addShape( shape, color, s, id ) {
 		var extrudeSettings = shape.extrudeSettings;
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [ that.m, that.m ] );
+		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [  materialsLibrary.getMaterial(currentMesh['Material']), materialsLibrary.getMaterial(currentMesh['Material']) ] );
 		mesh.scale.set( s, s, s );
 		mesh.idNumber = id;
 		// if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null' &&  INTERSECTED.svgShape.idNumber === id)
