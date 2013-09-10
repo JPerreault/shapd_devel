@@ -148,6 +148,11 @@ var SceneWrapper = function(tMB, textureCube, tMP, sMB) {
 		}
 	};
 	
+	this.updateSvgMesh = function()
+	{
+		svgMeshBuilder.build();
+	}
+	
 	this.redrawTorus = function()
 	{
 		this.scene.remove(loop.torusMesh);

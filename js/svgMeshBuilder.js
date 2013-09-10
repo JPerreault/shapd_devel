@@ -13,7 +13,7 @@ var SvgMeshBuilder = function(materialsLibrary)
 	this.build = function()
 	{
 		svgCanvas.getSvgString()(function(data, error) 
-			{
+		{
 			currentMesh['Scale'] = .12;
 			svgShape = new THREE.Object3D();
 			shapes = svgToThreeD(data);

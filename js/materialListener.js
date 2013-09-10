@@ -572,7 +572,7 @@ var materialListener = function(sW, tutorial){
 	this.materialChange = function()
 	{
 		currentMesh.officialName = name;
-		sceneWrapper.redrawMesh(currentMesh);
+		sceneWrapper.updateSvgMesh();
 		getNewPrice();
 		this.panelUpdate();
 		currentMesh.calculateDimensions('xyz', loop.torusDefined);
