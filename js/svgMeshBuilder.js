@@ -28,7 +28,7 @@ var SvgMeshBuilder = function(materialsLibrary)
 	function addShape( shape, color, s, id ) {
 		var extrudeSettings = shape.extrudeSettings;
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [  materialsLibrary.getMaterial(currentMesh['Material']), materialsLibrary.getMaterial(currentMesh['Material']) ] );
+		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [  new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } ), new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } ) ] );
 		mesh.scale.set( s, s, s );
 		mesh.idNumber = id;
 		// if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null' &&  INTERSECTED.svgShape.idNumber === id)

@@ -59,7 +59,7 @@ var InputView = function(sW, rend, tMP) {
 			var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
 			projector.unprojectVector(vector, sceneWrapper.camera);
 			var raycaster = new THREE.Raycaster (sceneWrapper.camera.position, vector.sub(sceneWrapper.camera.position).normalize());
-			
+
 			var inBounds = loop.addLoop(raycaster);
 			if (inBounds === true)
 			{

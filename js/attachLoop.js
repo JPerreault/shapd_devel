@@ -12,6 +12,7 @@ var Loop = function(materialLib)
 	var that = this;
 	var matLib = materialLib;
 	var beenScaled = false;
+	var intersectedObject;
 	
 	this.update = function(newType){
 		this.type = newType;
@@ -20,12 +21,13 @@ var Loop = function(materialLib)
 	this.addLoop = function (rC)
 	{
 		var raycaster = rC;
-		intersects = raycaster.intersectObject(currentMesh.figure);
-		//intersects = raycaster.intersectObject(svgShape.children, true); //Object [object Array] has no method 'getDescendants' 
+		//intersects = raycaster.intersectObject(currentMesh.figure);
+		intersects = raycaster.intersectObjects(svgShape.children, true);
 		
 		if (intersects.length > 0)
 		{
 			this.fIndex = intersects[0].faceIndex;
+			intersectedObject = intersects[0].object;
 			return true;
 		}
 		return false;
@@ -55,13 +57,13 @@ var Loop = function(materialLib)
 		if (typeof printingUser === 'undefined')
 			this.fIndex = this.calculateFaceIndex();
 		
-		var faceNormal = currentMesh.figure.geometry.faces[this.fIndex].normal;
+		var faceNormal = intersectedObject.geometry.faces[this.fIndex].normal;
 		faceNormal.normalize();
 		
-		var faceCentroid = currentMesh.figure.geometry.faces[this.fIndex].centroid;
-		var v1 = currentMesh.figure.geometry.vertices[currentMesh.figure.geometry.faces[this.fIndex].a];
-		var v2 = currentMesh.figure.geometry.vertices[currentMesh.figure.geometry.faces[this.fIndex].b];
-		var v3 = currentMesh.figure.geometry.vertices[currentMesh.figure.geometry.faces[this.fIndex].c]; 
+		var faceCentroid = intersectedObject.geometry.faces[this.fIndex].centroid;
+		var v1 = intersectedObject.geometry.vertices[intersectedObject.geometry.faces[this.fIndex].a];
+		var v2 = intersectedObject.geometry.vertices[intersectedObject.geometry.faces[this.fIndex].b];
+		var v3 = intersectedObject.geometry.vertices[intersectedObject.geometry.faces[this.fIndex].c]; 
 		
 		var forwardVector = new THREE.Vector3();
 		if (this.torusRotationNinety === 0)
@@ -87,10 +89,10 @@ var Loop = function(materialLib)
 		torus.applyMatrix(alignMatrix);
 		torusLoop = new THREE.Mesh(torus, matLib.getMaterial(material));
 		
-		var centerScale = currentMesh.figure.scale.x/scale;
-		var cenPosX = currentMesh.figure.geometry.faces[this.fIndex].centroid.x * centerScale;
-		var cenPosY = currentMesh.figure.geometry.faces[this.fIndex].centroid.y * centerScale;
-		var cenPosZ = currentMesh.figure.geometry.faces[this.fIndex].centroid.z * centerScale;
+		var centerScale = .12/scale;
+		var cenPosX = intersectedObject.geometry.faces[this.fIndex].centroid.x * centerScale;
+		var cenPosY = intersectedObject.geometry.faces[this.fIndex].centroid.y * centerScale;
+		var cenPosZ = intersectedObject.geometry.faces[this.fIndex].centroid.z * centerScale;
 
 		this.torusX = cenPosX;
 		this.torusY = cenPosY;
@@ -122,7 +124,7 @@ var Loop = function(materialLib)
 		var newFace, newValue;
 		for (var i = 0; i < radiusSegments; i++)
 		{
-			newFace = currentMesh.figure.geometry.faces[sectionNumber*radiusSegments + i];
+			newFace = intersectedObject.geometry.faces[sectionNumber*radiusSegments + i];
 			newValue = Math.abs(newFace.centroid.x) + Math.abs(newFace.centroid.y);
 			if (newValue > high)
 			{
@@ -136,7 +138,6 @@ var Loop = function(materialLib)
 		if (incr < 0)
 			incr = radiusSegments + incr;
 		fIndexHigh = sectionNumber*radiusSegments + incr;
-		
 		return fIndexHigh;
 	}
 	
