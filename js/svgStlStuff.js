@@ -9,37 +9,68 @@ function saveSTL(mesh)
 function createSTL(mesh)
 {
 	stl = 'solid test \n';	
-	for (var t = 0; t < mesh.children.length; t++)
-		{
-			for (var j = 0; j < mesh.children[t].children.length; j++)
+	if (mesh.children.length !== 0)
+	{
+		for (var t = 0; t < mesh.children.length; t++)
 			{
-				var vertices = mesh.children[t].children[j].geometry.vertices;
-				var faces = mesh.children[t].children[j].geometry.faces;
-					
-				//Loop for all faces, adding each vertex to the stl file and making triangles from them.
-				for (var i = 0; i < faces.length; i++)
+				for (var j = 0; j < mesh.children[t].children.length; j++)
 				{
-					stl += 'facet normal ' + convertVectorToString(faces[i].normal) + ' \n';
-					stl += 'outer loop \n';
-					stl += convertVertexToString(vertices[faces[i].a]);
-					stl += convertVertexToString(vertices[faces[i].b]);
-					stl += convertVertexToString(vertices[faces[i].c]);
-					stl += 'endloop \n';
-					stl += 'endfacet \n';
-					
-					if (faces[i] instanceof THREE.Face4)
+					var vertices = mesh.children[t].children[j].geometry.vertices;
+					var faces = mesh.children[t].children[j].geometry.faces;
+						
+					//Loop for all faces, adding each vertex to the stl file and making triangles from them.
+					for (var i = 0; i < faces.length; i++)
 					{
 						stl += 'facet normal ' + convertVectorToString(faces[i].normal) + ' \n';
 						stl += 'outer loop \n';
 						stl += convertVertexToString(vertices[faces[i].a]);
+						stl += convertVertexToString(vertices[faces[i].b]);
 						stl += convertVertexToString(vertices[faces[i].c]);
-						stl += convertVertexToString(vertices[faces[i].d]);
 						stl += 'endloop \n';
 						stl += 'endfacet \n';
+						
+						if (faces[i] instanceof THREE.Face4)
+						{
+							stl += 'facet normal ' + convertVectorToString(faces[i].normal) + ' \n';
+							stl += 'outer loop \n';
+							stl += convertVertexToString(vertices[faces[i].a]);
+							stl += convertVertexToString(vertices[faces[i].c]);
+							stl += convertVertexToString(vertices[faces[i].d]);
+							stl += 'endloop \n';
+							stl += 'endfacet \n';
+						}
 					}
 				}
 			}
+	}
+	else
+	{
+		var vertices = mesh.geometry.vertices;
+		var faces = mesh.geometry.faces;
+			
+		//Loop for all faces, adding each vertex to the stl file and making triangles from them.
+		for (var i = 0; i < faces.length; i++)
+		{
+			stl += 'facet normal ' + convertVectorToString(faces[i].normal) + ' \n';
+			stl += 'outer loop \n';
+			stl += convertVertexToString(vertices[faces[i].a]);
+			stl += convertVertexToString(vertices[faces[i].b]);
+			stl += convertVertexToString(vertices[faces[i].c]);
+			stl += 'endloop \n';
+			stl += 'endfacet \n';
+			
+			if (faces[i] instanceof THREE.Face4)
+			{
+				stl += 'facet normal ' + convertVectorToString(faces[i].normal) + ' \n';
+				stl += 'outer loop \n';
+				stl += convertVertexToString(vertices[faces[i].a]);
+				stl += convertVertexToString(vertices[faces[i].c]);
+				stl += convertVertexToString(vertices[faces[i].d]);
+				stl += 'endloop \n';
+				stl += 'endfacet \n';
+			}
 		}
+	}
 		stl += 'endsolid';
 		
 		return stl;

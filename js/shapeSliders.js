@@ -4,6 +4,21 @@ function addSliders(tutorial, sceneWrapper)
 	var notSlid = true;
 	
 	$(function() {
+	 $( "#extrusionSlider" ).slider({
+		 value: 1,
+		 min: 1,
+		 max: 100,
+		 step: 1,
+		 slide: function(event, ui){
+			 if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null')
+			 {
+				 shapes[INTERSECTED.parent.idNumber].extrudeSettings.amount = ui.value;
+				 updateScene();
+			 }
+		 }
+	 })});
+	
+	$(function() {
 		$( "#thickslider" ).slider({
 			value: currentMesh['Thickness'],
 			min: .5,

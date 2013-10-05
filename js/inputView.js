@@ -75,27 +75,31 @@ var InputView = function(sW, rend, tMP) {
 		
 		
 		
-		// var projector = new THREE.Projector();
-		// var raycaster = new THREE.Raycaster();
+		var projector = new THREE.Projector();
+		var raycaster = new THREE.Raycaster();
 		
-		// var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
-		// projector.unprojectVector( vector, sceneWrapper.camera );
-		// raycaster.set( sceneWrapper.camera.position, vector.sub( sceneWrapper.camera.position ).normalize() );
-		// var intersects = raycaster.intersectObjects( svgShape.children, true );
+		var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
+		projector.unprojectVector( vector, sceneWrapper.camera );
+		raycaster.set( sceneWrapper.camera.position, vector.sub( sceneWrapper.camera.position ).normalize() );
+		var intersects = raycaster.intersectObjects( svgShape.children, true );
 		
-		// if ( intersects.length > 0 ) 
-		// {
-			// if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null')
-				// INTERSECTED.material.color.g = 0;
-			// INTERSECTED = intersects[0].object;
-			// $("#extrusionSlider").slider("value", shapes[INTERSECTED.svgShape.idNumber].extrudeSettings.amount);
-			// INTERSECTED.material.color.g = .35;
-		// }
-		// else if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null')
-		// {
-			// INTERSECTED.material.color.g = 0;
-			// INTERSECTED = 'null';
-		// }
+		if ( intersects.length > 0 ) 
+		{
+			if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null')
+			{
+				INTERSECTED.material.color.g = 0;
+				console.log('test');
+			}
+			INTERSECTED = intersects[0].object;
+			$("#extrusionSlider").slider("value", shapes[INTERSECTED.parent.idNumber].extrudeSettings.amount);
+			INTERSECTED.material.color.g = .35;
+		}
+		else if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null')
+		{
+			INTERSECTED.material.color.g = 0;
+			console.log(INTERSECTED.material.color.g);
+			INTERSECTED = 'null';
+		}
 	}
 	
 	function onDocumentMouseWheel ( event ) {

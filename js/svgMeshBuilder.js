@@ -28,7 +28,10 @@ var SvgMeshBuilder = function(materialsLibrary)
 	function addShape( shape, color, s, id ) {
 		var extrudeSettings = shape.extrudeSettings;
 		var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [  new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } ), new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } ) ] );
+		var mat = new THREE.Material();
+		reflectCube = materialsLibrary.reflectCube;
+		mat = new THREE.MeshLambertMaterial({color: 0xFFEA8C, map: THREE.ImageUtils.loadTexture('textures/lighttexture.png'), envMap: reflectCube})
+		var mesh = THREE.SceneUtils.createMultiMaterialObject( geometry, [  mat, mat ] );
 		mesh.scale.set( s, s, s );
 		mesh.idNumber = id;
 		// if (typeof INTERSECTED !== 'undefined' && INTERSECTED !== 'null' &&  INTERSECTED.svgShape.idNumber === id)
