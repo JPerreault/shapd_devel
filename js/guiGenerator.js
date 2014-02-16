@@ -290,9 +290,9 @@ var GuiInit = function(){
 		var progressContainer = document.createElement('div');
 		progressContainer.id = 'idProgressContainer';
 		progressContainer.style.position = 'absolute';
-		progressContainer.style.width = '200%';
+		progressContainer.style.width = '100%';
 		progressContainer.style.top = '10px';			
-		progressContainer.style.zIndex = '100';
+		progressContainer.style.zIndex = '101';
 		document.body.appendChild(progressContainer);
 		
 			var progressImg = document.createElement('img');
